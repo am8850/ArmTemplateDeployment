@@ -81,7 +81,9 @@
   "variables": {
     "webSiteName": "[concat('webSite', uniqueString(resourceGroup().id))]",
     "api1SiteName1": "[concat('ApiSite1', uniqueString(resourceGroup().id))]",
+    "api1SiteName1EastUS": "[concat('ApiSite1eaus', uniqueString(resourceGroup().id))]",
     "api2SiteName2": "[concat('ApiSite2', uniqueString(resourceGroup().id))]",
+    "api2SiteName2EastUS": "[concat('ApiSite2eaus', uniqueString(resourceGroup().id))]",
     "sqlserverName": "[concat('sqlserver', uniqueString(resourceGroup().id))]",
     "diagStorageAccount": "[concat('diagnostics', uniqueString(resourceGroup().id))]"
   },
