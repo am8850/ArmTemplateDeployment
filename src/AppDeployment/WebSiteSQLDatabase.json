@@ -82,7 +82,8 @@
     "webSiteName": "[concat('webSite', uniqueString(resourceGroup().id))]",
     "api1SiteName1": "[concat('ApiSite1', uniqueString(resourceGroup().id))]",
     "api2SiteName2": "[concat('ApiSite2', uniqueString(resourceGroup().id))]",
-    "sqlserverName": "[concat('sqlserver', uniqueString(resourceGroup().id))]"
+    "sqlserverName": "[concat('sqlserver', uniqueString(resourceGroup().id))]",
+    "diagStorageAccount": "[concat('diagnostics', uniqueString(resourceGroup().id))]"
   },
   "resources": [
     {
@@ -463,6 +464,19 @@
       "properties": {
         "ApplicationId": "[variables('webSiteName')]"
       }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('diagStorageAccount')]",
+      "apiVersion": "2016-01-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "[variables('diagStorageAccount')]"
+      },
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "Storage"
     }
   ]
 }
