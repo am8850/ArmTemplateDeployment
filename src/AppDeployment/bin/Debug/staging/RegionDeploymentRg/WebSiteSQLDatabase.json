@@ -76,58 +76,6 @@
       "metadata": {
         "description": "Describes the performance level for Edition"
       }
-    },
-    "redisCacheName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the Azure Redis Cache to create."
-      }
-    },
-    "redisCacheSKU": {
-      "type": "string",
-      "allowedValues": [
-        "Basic",
-        "Standard",
-        "Premium"
-      ],
-      "defaultValue": "Standard",
-      "metadata": {
-        "description": "The pricing tier of the new Azure Redis Cache."
-      }
-    },
-    "redisCacheFamily": {
-      "type": "string",
-      "defaultValue": "C",
-      "metadata": {
-        "description": "The family for the sku."
-      },
-      "allowedValues": [
-        "C",
-        "P"
-      ]
-    },
-    "redisCacheCapacity": {
-      "type": "int",
-      "allowedValues": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "defaultValue": 1,
-      "metadata": {
-        "description": "The size of the new Azure Redis Cache instance. "
-      }
-    },
-    "enableNonSslPort": {
-      "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "A boolean value that indicates whether to allow access via non-SSL ports."
-      }
     }
   },
   "variables": {
@@ -214,7 +162,7 @@
         "name": "[parameters('hostingPlanName')]"
       }
     },
-    // FrontEnd
+    // WebApp
     {
       "apiVersion": "2015-08-01",
       "name": "[variables('webSiteName')]",
@@ -248,7 +196,7 @@
         }
       ]
     },
-    //Api1
+    //
     {
       "apiVersion": "2015-08-01",
       "name": "[variables('api1SiteName1')]",
@@ -282,7 +230,6 @@
         }
       ]
     },
-    // Api2
     {
       "apiVersion": "2015-08-01",
       "name": "[variables('api2SiteName2')]",
@@ -316,7 +263,6 @@
         }
       ]
     },
-    // Autoscaling
     {
       "apiVersion": "2014-04-01",
       "name": "[concat(parameters('hostingPlanName'), '-', resourceGroup().name)]",
@@ -563,22 +509,7 @@
           "capacity": 0
         }
       },
-      "location": "[resourceGroup().location]",
-      "resources": [
-        {
-          "apiVersion": "2015-07-01",
-          "type": "Microsoft.Cache/redis/providers/diagnosticsettings",
-          "name": "[concat(parameters('redisCacheName'), '/Microsoft.Insights/service')]",
-          "location": "[resourceGroup().location]",
-          "dependsOn": [
-            "[concat('Microsoft.Cache/Redis/', variables('redisCacheName'))]"
-          ],
-          "properties": {
-            "status": "ON",
-            "storageAccountName": "[variables('diagStorageAccount')]"
-          }
-        }
-      ]
+      "location": "[resourceGroup().location]"
     }
   ]
 }

@@ -13,9 +13,6 @@
     },
     "administratorLoginPassword": {
       "value": "Fuerte#123456"
-    },
-    "redisCacheName": {
-      "value": "redisFrontier"
     }
   }
 }
