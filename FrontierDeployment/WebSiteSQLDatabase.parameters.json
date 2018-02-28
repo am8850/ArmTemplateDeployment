@@ -3,13 +3,22 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "hostingPlanName": {
-      "value": null
+      "value": "FrontierHostingPlanWest"
     },
     "administratorLogin": {
-      "value": null
+      "value": "sqladmin"
     },
     "databaseName": {
-      "value": null
+      "value": "DevDb"
+    },
+    "environment": {
+      "value": "dev"
+    },
+    "administratorLoginPassword": {
+      "value": "Fuerte#123456"
+    },
+    "skuName": {
+      "value": "B1"
     }
   }
 }
