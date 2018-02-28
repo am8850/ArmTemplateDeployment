@@ -416,10 +416,11 @@
         "ApplicationId": "[variables('webSiteName')]"
       }
     },
-    // Portal 1
+    // Search Microservice
+    //   Portal
     {
       "apiVersion": "2015-08-01",
-      "name": "[variables('webSiteName')]",
+      "name": "[variables('searchPortal')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -427,10 +428,10 @@
       ],
       "tags": {
         "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty",
-        "displayName": "Website"
+        "displayName": "Search Portal"
       },
       "properties": {
-        "name": "[variables('webSiteName')]",
+        "name": "[variables('searchPortal')]",
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
       },
       "resources": [
@@ -439,7 +440,7 @@
           "type": "config",
           "name": "connectionstrings",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]"
+            "[resourceId('Microsoft.Web/Sites/', variables('searchPortal'))]"
           ],
           "properties": {
             "DefaultConnection": {
@@ -450,10 +451,10 @@
         }
       ]
     },
-    // Gateway API
+    //   Search API Gateway
     {
       "apiVersion": "2015-08-01",
-      "name": "[variables('webSiteName')]",
+      "name": "[variables('searchGateway')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -461,10 +462,10 @@
       ],
       "tags": {
         "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty",
-        "displayName": "Website"
+        "displayName": "Search API Gateway"
       },
       "properties": {
-        "name": "[variables('webSiteName')]",
+        "name": "[variables('searchGateway')]",
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
       },
       "resources": [
@@ -473,7 +474,7 @@
           "type": "config",
           "name": "connectionstrings",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]"
+            "[resourceId('Microsoft.Web/Sites/', variables('searchGateway'))]"
           ],
           "properties": {
             "DefaultConnection": {
@@ -484,10 +485,10 @@
         }
       ]
     },
-    // API
+    //   Search Microservice
     {
       "apiVersion": "2015-08-01",
-      "name": "[variables('webSiteName')]",
+      "name": "[variables('SearchApi')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -495,10 +496,10 @@
       ],
       "tags": {
         "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty",
-        "displayName": "Website"
+        "displayName": "Search Microservice"
       },
       "properties": {
-        "name": "[variables('webSiteName')]",
+        "name": "[variables('SearchApi')]",
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
       },
       "resources": [
@@ -507,17 +508,63 @@
           "type": "config",
           "name": "connectionstrings",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]"
+            "[resourceId('Microsoft.Web/Sites/', variables('SearchApi'))]"
           ],
           "properties": {
             "DefaultConnection": {
               "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('sqlserverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
               "type": "SQLServer"
             }
+          }
+        }
+      ]
+    },
+    //   Search Sql Server
+    {
+      "name": "[variables('SearchSql')]",
+      "type": "Microsoft.Sql/servers",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "Search Sql Server"
+      },
+      "apiVersion": "2014-04-01-preview",
+      "properties": {
+        "administratorLogin": "[parameters('administratorLogin')]",
+        "administratorLoginPassword": "[parameters('administratorLoginPassword')]"
+      },
+      "resources": [
+        {
+          "name": "[parameters('databaseName')]",
+          "type": "databases",
+          "location": "[resourceGroup().location]",
+          "tags": {
+            "displayName": "Database"
+          },
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[resourceId('Microsoft.Sql/servers/', variables('SearchSql'))]"
+          ],
+          "properties": {
+            "edition": "[parameters('edition')]",
+            "collation": "[parameters('collation')]",
+            "maxSizeBytes": "[parameters('maxSizeBytes')]",
+            "requestedServiceObjectiveName": "[parameters('requestedServiceObjectiveName')]"
+          }
+        },
+        {
+          "type": "firewallrules",
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[resourceId('Microsoft.Sql/servers/', variables('SearchSql'))]"
+          ],
+          "location": "[resourceGroup().location]",
+          "name": "AllowAllWindowsAzureIps",
+          "properties": {
+            "endIpAddress": "0.0.0.0",
+            "startIpAddress": "0.0.0.0"
           }
         }
       ]
     }
-
   ]
 }
