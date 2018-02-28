@@ -83,30 +83,30 @@
     }
   },
   "variables": {
-    "uniqueString": "proj",
+    "uniqueString": "frwest",
     "webSiteName": "[concat(variables('uniqueString'),'MainPortal')]",
-    "sqlserverName": "[concat(variables('uniqueString'),'SqlServer')]",
+    "sqlserverName": "[concat(variables('uniqueString'),'mainsqlserver')]",
     // Search
     "searchPortal": "[concat(variables('uniqueString'),'SearchPortal')]",
     "searchGateway": "[concat(variables('uniqueString'),'SearchGateway')]",
-    "SearchApi": "[concat(variables('uniqueString'),'SearchPortal')]",
-    "SearchSql": "[concat(variables('uniqueString'),'SearchPortal')]",
+    "SearchApi": "[concat(variables('uniqueString'),'SearchApi')]",
+    "SearchSql": "[concat(variables('uniqueString'),'searchsqlserver')]",
     // Finance
     "financePortal": "[concat(variables('uniqueString'),'FinPortal')]",
     "financeGateway": "[concat(variables('uniqueString'),'FinGateway')]",
     "financeApi": "[concat(variables('uniqueString'),'FinApi')]",
-    "financeSql": "[concat(variables('uniqueString'),'FinqlServer')]",
+    "financeSql": "[concat(variables('uniqueString'),'finsqlserver')]",
     // Customer
     "customerPortal": "[concat(variables('uniqueString'),'CustPortal')]",
     "customerGateway": "[concat(variables('uniqueString'),'CustGateway')]",
     "customerApi": "[concat(variables('uniqueString'),'CustApi')]",
-    "customerSql": "[concat(variables('uniqueString'),'CustSqlServer')]",
+    "customerSql": "[concat(variables('uniqueString'),'custsqlserver')]",
     // Availability
     "availabilityPortal": "[concat(variables('uniqueString'),'AvailPortal')]",
     "availabilityGateway": "[concat(variables('uniqueString'),'AvailGateway')]",
     "availabilityApi": "[concat(variables('uniqueString'),'AvailApi')]",
-    "availabilitySql": "[concat(variables('uniqueString'),'AvailSqlServer')]",
-    "availabilityDocDb": "[concat(variables('uniqueString'),'AvailDocDb')]"
+    "availabilitySql": "[concat(variables('uniqueString'),'availsqlserver')]",
+    "availabilityDocDb": "[concat(variables('uniqueString'),'availdocdb')]"
   },
   "resources": [
     {
@@ -977,7 +977,7 @@
     },
     //   Sql Server
     {
-      "name": "[variables('availabilityApi')]",
+      "name": "[variables('availabilitySql')]",
       "type": "Microsoft.Sql/servers",
       "location": "[resourceGroup().location]",
       "tags": {
@@ -998,7 +998,7 @@
           },
           "apiVersion": "2014-04-01-preview",
           "dependsOn": [
-            "[resourceId('Microsoft.Sql/servers/', variables('availabilityApi'))]"
+            "[resourceId('Microsoft.Sql/servers/', variables('availabilitySql'))]"
           ],
           "properties": {
             "edition": "[parameters('edition')]",
@@ -1011,7 +1011,7 @@
           "type": "firewallrules",
           "apiVersion": "2014-04-01-preview",
           "dependsOn": [
-            "[resourceId('Microsoft.Sql/servers/', variables('availabilityApi'))]"
+            "[resourceId('Microsoft.Sql/servers/', variables('availabilitySql'))]"
           ],
           "location": "[resourceGroup().location]",
           "name": "AllowAllWindowsAzureIps",
