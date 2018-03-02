@@ -45,6 +45,54 @@
     "administratorLoginPassword": {
       "type": "securestring"
     },
+    "searchAdministratorLogin": {
+      "type": "string"
+    },
+    "searchAdministratorLoginPassword": {
+      "type": "securestring"
+    },
+    "financeAdministratorLogin": {
+      "type": "string"
+    },
+    "financeAdministratorLoginPassword": {
+      "type": "securestring"
+    },
+    "customerAdministratorLogin": {
+      "type": "string"
+    },
+    "customerAdministratorLoginPassword": {
+      "type": "securestring"
+    },
+    "availabilityAdministratorLogin": {
+      "type": "string"
+    },
+    "availabilityAdministratorLoginPassword": {
+      "type": "securestring"
+    },
+    "facilityAdministratorLogin": {
+      "type": "string"
+    },
+    "facilityAdministratorLoginPassword": {
+      "type": "securestring"
+    },
+    "dcmAdministratorLogin": {
+      "type": "string"
+    },
+    "dcmAdministratorLoginPassword": {
+      "type": "securestring"
+    },
+    "tmsAdministratorLogin": {
+      "type": "string"
+    },
+    "tmsAdministratorLoginPassword": {
+      "type": "securestring"
+    },
+    "reportingAdministratorLogin": {
+      "type": "string"
+    },
+    "reportingAdministratorLoginPassword": {
+      "type": "securestring"
+    },
     "databaseName": {
       "type": "string"
     },
